@@ -17,9 +17,15 @@
   margin: auto;
   max-width: 1200px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
 }
 
 .ace_editor {
   margin: auto;
+}
+
+@media only screen and (min-width: 1000px) {
+  .editor-container {
+    grid-template-columns: 1fr 1fr;
+  }
 }
