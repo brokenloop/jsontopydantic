@@ -10,9 +10,8 @@ from datamodel_code_generator.model.pydantic import (
 )
 
 def translate(
-    input_text: Json,
+    input_text: Dict,
 ) -> str:
-    # obj: Dict[Any, Any] = json.loads(input_text)
     builder = SchemaBuilder()
     builder.add_object(input_text)
     schema = json.dumps(builder.to_schema())
@@ -27,7 +26,7 @@ def translate(
 
 
 if __name__=="__main__":
-    data = '{"tester":3}'
+    data = {"tester": 3}
     result = translate(data)
     print(result)
 
