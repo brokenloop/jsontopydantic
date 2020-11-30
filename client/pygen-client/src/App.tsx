@@ -50,10 +50,10 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Json to Pydantic Converter</h1>
+      <h1>JSON to Pydantic Converter</h1>
       <div className="editor-container">
         <div className="editor">
-          <h3>Json</h3>
+          <h3>JSON</h3>
           <AceEditor
             value={jsonObject}
             mode="json"
@@ -73,6 +73,29 @@ function App() {
             editorProps={{ $blockScrolling: true }}
           />
         </div>
+      </div>
+      <br></br>
+      <div className="about">
+        <h2>What is this?</h2>
+        <p>
+          JSON to Pydantic is a tool that lets you convert JSON objects into
+          Pydantic models. <a href="https://www.json.org/json-en.html">JSON</a>{" "}
+          is the de-facto data interchange format of the internet, and{" "}
+          <a href="https://pydantic-docs.helpmanual.io/">Pydantic</a>
+          is a library that makes parsing JSON in Python a breeze.
+        </p>
+        <p>
+          To convert your JSON into a Pydantic model, enter it into the JSON
+          editor to the left and watch a Pydantic model automagically appear in
+          the editor on the right.
+        </p>
+        <p>
+          Pydantic models are generated via the experimental
+          <a href="https://github.com/koxudaxi/datamodel-code-generator">
+            datamodel-code-generator
+          </a>
+          .
+        </p>
       </div>
     </div>
   );
