@@ -1,14 +1,19 @@
 import pdb
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Json
 from starlette.requests import Request
 from typing import Dict, Any
 from .scripts.generator import translate
 
 
+logger = logging.getLogger(__name__)
+
+
 class BasicRequest(BaseModel):
-    data: Dict[Any, Any]
+    data: Json
 
 
 app = FastAPI()
@@ -25,7 +30,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+@app.get("/testget")
+async def testget():
+    return {"model": "success"}
+
+
 @app.post("/")
 async def convert(basicRequest: BasicRequest):
-    # return {"model": translate(request.data)}
-    return {"model": "lol"}
+    return {"model": translate(basicRequest.data)}
