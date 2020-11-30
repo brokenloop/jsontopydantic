@@ -6,7 +6,8 @@ import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-monokai";
 
-const apiUrl = "http://localhost:8000";
+const apiUrl = "https://ufgjji253b.execute-api.us-east-1.amazonaws.com/prod";
+const loadingMessage = "# loading...";
 const invalidJsonMessage = "# invalid json";
 
 type RequestBody = {
@@ -18,7 +19,7 @@ function App() {
   const [pydanticModel, setPydanticModel] = useState("");
 
   useEffect(() => {
-    translate();
+    fetchConversion();
   }, [jsonObject]);
 
   function onChange(newValue: string) {
@@ -26,7 +27,8 @@ function App() {
     setJsonObject(newValue);
   }
 
-  function translate() {
+  function fetchConversion() {
+    setPydanticModel(loadingMessage);
     const requestBody: RequestBody = { data: jsonObject };
     const url = new URL(apiUrl);
     const opts = {
@@ -36,14 +38,12 @@ function App() {
 
     fetch(url.toString(), opts)
       .then((response) => {
-        console.log(response.status);
         if (response.status === 422) {
           setPydanticModel(invalidJsonMessage);
         }
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setPydanticModel(data.model);
       });
   }
