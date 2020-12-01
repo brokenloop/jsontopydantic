@@ -28,6 +28,10 @@
   text-align: center;
 }
 
+.about a {
+  color: wheat;
+}
+
 .about {
   padding: 1em;
   margin-left: auto;
