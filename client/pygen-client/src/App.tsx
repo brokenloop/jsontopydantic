@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import logo from './GitHub-Mark-Light-120px-plus.png';
 import "./App.css";
 import AceEditor from "react-ace";
 
@@ -60,6 +61,7 @@ function App() {
             theme="monokai"
             onChange={onChange}
             name="json-editor"
+            // width={"100px"}
             editorProps={{ $blockScrolling: true }}
           />
         </div>
@@ -97,6 +99,9 @@ function App() {
           .
         </p>
       </div>
+      <a href="https://github.com/brokenloop/jsontopydantic">
+        <img id="github-logo" src={logo} alt="GitHub Logo" />
+      </a>
     </div>
   );
 }
