@@ -81,7 +81,7 @@ function App() {
           JSON to Pydantic is a tool that lets you convert JSON objects into
           Pydantic models. <a href="https://www.json.org/json-en.html">JSON</a>{" "}
           is the de-facto data interchange format of the internet, and{" "}
-          <a href="https://pydantic-docs.helpmanual.io/">Pydantic</a>
+          <a href="https://pydantic-docs.helpmanual.io/">Pydantic</a>{" "}
           is a library that makes parsing JSON in Python a breeze.
         </p>
         <p>
@@ -90,7 +90,7 @@ function App() {
           the editor on the right.
         </p>
         <p>
-          Pydantic models are generated via the experimental
+          Pydantic models are generated via the experimental{" "}
           <a href="https://github.com/koxudaxi/datamodel-code-generator">
             datamodel-code-generator
           </a>
