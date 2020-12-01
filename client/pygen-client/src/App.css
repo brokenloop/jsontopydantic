@@ -40,8 +40,28 @@
   text-align: justify;
 }
 
+#github-logo {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
 @media only screen and (min-width: 1000px) {
   .editor-container {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.editor {
+  max-width: 600px;
+  width: 90%;
+  /* padding: 1em; */
+  margin: auto;
+  /* margin-left: auto;
+  margin-right: auto; */
+}
+
+.ace_editor {
+  width: 100% !important;
 }
