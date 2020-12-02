@@ -1,6 +1,3 @@
-<!-- SCREENSHOT -->
-![website screenshot](images/screenshot.png)
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
@@ -14,6 +11,7 @@ This project provides a web interface through which you can quickly
 generate pydantic models from JSON objects.
 
 
+![website screenshot](images/screenshot.png)
 ### Built With
 
 * [FastAPI](https://github.com/tiangolo/fastapi)
