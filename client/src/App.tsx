@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import logo from './GitHub-Mark-Light-120px-plus.png';
+import logo from "./GitHub-Mark-Light-120px-plus.png";
 import "./App.css";
 import AceEditor from "react-ace";
 
@@ -8,6 +8,7 @@ import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-monokai";
 
 const apiUrl = "https://ufgjji253b.execute-api.us-east-1.amazonaws.com/prod";
+const defaultJsonObject = '{\n\t"foo": 5 \n}';
 const loadingMessage = "# loading...";
 const invalidJsonMessage = "# invalid json";
 
@@ -16,19 +17,25 @@ type RequestBody = {
 };
 
 function App() {
-  const [jsonObject, setJsonObject] = useState('{\n\t"foo": 5 \n}');
+  const [jsonObject, setJsonObject] = useState(defaultJsonObject);
   const [pydanticModel, setPydanticModel] = useState("");
 
   useEffect(() => {
+    try {
+      let _ = JSON.parse(jsonObject);
+    } catch (__) {
+      setPydanticModel(invalidJsonMessage);
+      return;
+    }
     fetchConversion();
   }, [jsonObject]);
 
   function onChange(newValue: string) {
-    console.log(newValue);
     setJsonObject(newValue);
   }
 
   function fetchConversion() {
+    console.log("fetching");
     setPydanticModel(loadingMessage);
     const requestBody: RequestBody = { data: jsonObject };
     const url = new URL(apiUrl);
@@ -61,7 +68,6 @@ function App() {
             theme="monokai"
             onChange={onChange}
             name="json-editor"
-            // width={"100px"}
             editorProps={{ $blockScrolling: true }}
           />
         </div>
@@ -83,13 +89,13 @@ function App() {
           JSON to Pydantic is a tool that lets you convert JSON objects into
           Pydantic models. <a href="https://www.json.org/json-en.html">JSON</a>{" "}
           is the de-facto data interchange format of the internet, and{" "}
-          <a href="https://pydantic-docs.helpmanual.io/">Pydantic</a>{" "}
-          is a library that makes parsing JSON in Python a breeze.
+          <a href="https://pydantic-docs.helpmanual.io/">Pydantic</a> is a
+          library that makes parsing JSON in Python a breeze.
         </p>
         <p>
-          To convert your JSON into a Pydantic model, enter it into the JSON
-          editor to the left and watch a Pydantic model automagically appear in
-          the editor on the right.
+          To generate a Pydantic model from a JSON object, enter it into the
+          JSON editor and watch a Pydantic model automagically appear in the
+          Pydantic editor.
         </p>
         <p>
           Pydantic models are generated via the experimental{" "}
