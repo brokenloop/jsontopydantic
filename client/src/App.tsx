@@ -21,23 +21,30 @@ function App() {
   const [pydanticModel, setPydanticModel] = useState("");
 
   useEffect(() => {
-    try {
-      let _ = JSON.parse(jsonObject);
-    } catch (__) {
+    if (validJson(jsonObject)) {
+      fetchConversion(jsonObject);
+    } else {
       setPydanticModel(invalidJsonMessage);
-      return;
     }
-    fetchConversion();
   }, [jsonObject]);
+
+  function validJson(newValue: string): boolean {
+    try {
+      JSON.parse(newValue);
+    } catch (_) {
+      return false;
+    }
+    return true;
+  }
 
   function onChange(newValue: string) {
     setJsonObject(newValue);
   }
 
-  function fetchConversion() {
+  function fetchConversion(newValue: string) {
     console.log("fetching");
     setPydanticModel(loadingMessage);
-    const requestBody: RequestBody = { data: jsonObject };
+    const requestBody: RequestBody = { data: newValue };
     const url = new URL(apiUrl);
     const opts = {
       method: "POST",
