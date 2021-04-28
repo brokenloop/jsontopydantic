@@ -25,11 +25,19 @@ app.add_middleware(
 
 class BasicRequest(BaseModel):
     data: Json
+    optional: bool = False
+    snakeCased: bool = False
 
 
 @app.post("/")
 async def convert(basicRequest: BasicRequest):
-    return {"model": translate(basicRequest.data)}
+    return {
+        "model": translate(
+            basicRequest.data,
+            basicRequest.optional,
+            basicRequest.snakeCased
+        )
+    }
 
 
 handler = Mangum(app)

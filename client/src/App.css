@@ -20,6 +20,11 @@
   grid-template-columns: 1fr;
 }
 
+.options-container {
+  margin: auto;
+  max-width: 1200px;
+}
+
 .ace_editor {
   margin: auto;
 }
@@ -60,6 +65,12 @@
   margin: auto;
   /* margin-left: auto;
   margin-right: auto; */
+}
+.option {
+  max-width: 600px;
+  width: 90%;
+  margin: auto;
+  text-align: left;
 }
 
 .ace_editor {
