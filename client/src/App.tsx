@@ -8,7 +8,7 @@ import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-monokai";
 
 const apiUrl = "https://ufgjji253b.execute-api.us-east-1.amazonaws.com/prod";
-const defaultJsonObject = '{\n\t"foo": 5 \n"barBaz": "hello"}';
+const defaultJsonObject = '{\n\t"foo": 5, \n\t"barBaz": "hello"\n}';
 const defaultOptions = {optional: false, snakeCased: false};
 const loadingMessage = "# loading...";
 const invalidJsonMessage = "# invalid json";
@@ -115,7 +115,7 @@ function App() {
                   checked={options.snakeCased}
                   onChange={e => setOptions({...options, snakeCased: e.target.checked})}
                 />
-                Force relevant fields as snake_cased with corresponding aliases
+                Alias camelCase fields as snake_case
               </label>
             </p>
           </div>
