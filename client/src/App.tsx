@@ -8,25 +8,29 @@ import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-monokai";
 
 const apiUrl = "https://ufgjji253b.execute-api.us-east-1.amazonaws.com/prod";
-const defaultJsonObject = '{\n\t"foo": 5 \n}';
+const defaultJsonObject = '{\n\t"foo": 5, \n\t"barBaz": "hello"\n}';
+const defaultOptions = {optional: false, snakeCased: false};
 const loadingMessage = "# loading...";
 const invalidJsonMessage = "# invalid json";
 
 type RequestBody = {
   data: string;
+  optional: boolean;
+  snakeCased: boolean;
 };
 
 function App() {
+  const [options, setOptions] = useState(defaultOptions);
   const [jsonObject, setJsonObject] = useState(defaultJsonObject);
   const [pydanticModel, setPydanticModel] = useState("");
 
   useEffect(() => {
     if (validJson(jsonObject)) {
-      fetchConversion(jsonObject);
+      fetchConversion(jsonObject, options.optional, options.snakeCased);
     } else {
       setPydanticModel(invalidJsonMessage);
     }
-  }, [jsonObject]);
+  }, [jsonObject, options]);
 
   function validJson(newValue: string): boolean {
     try {
@@ -41,10 +45,10 @@ function App() {
     setJsonObject(newValue);
   }
 
-  function fetchConversion(newValue: string) {
+  function fetchConversion(newValue: string, optional: boolean, snakeCased: boolean) {
     console.log("fetching");
     setPydanticModel(loadingMessage);
-    const requestBody: RequestBody = { data: newValue };
+    const requestBody: RequestBody = { data: newValue, optional, snakeCased };
     const url = new URL(apiUrl);
     const opts = {
       method: "POST",
@@ -88,6 +92,33 @@ function App() {
             editorProps={{ $blockScrolling: true }}
           />
         </div>
+      </div>
+      <div className="options-container">
+         <h3>Options</h3>
+         <div className="option">
+            <p className="control">
+              <label className="checkbox">
+                <input
+                  type="checkbox"
+                  checked={options.optional}
+                  onChange={e => setOptions({...options, optional: e.target.checked})}
+                />
+                Specify every field as Optional
+              </label>
+            </p>
+          </div>
+         <div className="field">
+            <p className="option">
+              <label className="checkbox">
+                <input
+                  type="checkbox"
+                  checked={options.snakeCased}
+                  onChange={e => setOptions({...options, snakeCased: e.target.checked})}
+                />
+                Alias camelCase fields as snake_case
+              </label>
+            </p>
+          </div>
       </div>
       <br></br>
       <div className="about">
