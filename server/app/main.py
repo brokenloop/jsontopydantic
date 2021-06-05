@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Json, Field
 from mangum import Mangum
+from typing import Optional
 
 from .scripts.generator import translate
 
@@ -26,16 +27,15 @@ class Options(BaseModel):
 
 class BasicRequest(BaseModel):
     data: Json
-    options: Options
+    options: Optional[Options]
 
 
 @app.post("/")
 async def convert(basic_request: BasicRequest):
+    options = basic_request.options if basic_request.options is not None else Options()
     return {
         "model": translate(
-            basic_request.data,
-            basic_request.options.force_optional,
-            basic_request.options.snake_cased,
+            basic_request.data, options.force_optional, options.snake_cased,
         )
     }
 
