@@ -1,8 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Json
-from starlette.requests import Request
-from typing import Dict, Any
+from pydantic import BaseModel, Json, Field
 from mangum import Mangum
 
 from .scripts.generator import translate
@@ -10,9 +8,7 @@ from .scripts.generator import translate
 
 app = FastAPI()
 
-origins = [
-    "*"
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -23,19 +19,23 @@ app.add_middleware(
 )
 
 
+class Options(BaseModel):
+    force_optional: bool = Field(False, alias="forceOptional")
+    snake_cased: bool = Field(False, alias="snakeCased")
+
+
 class BasicRequest(BaseModel):
     data: Json
-    optional: bool = False
-    snakeCased: bool = False
+    options: Options
 
 
 @app.post("/")
-async def convert(basicRequest: BasicRequest):
+async def convert(basic_request: BasicRequest):
     return {
         "model": translate(
-            basicRequest.data,
-            basicRequest.optional,
-            basicRequest.snakeCased
+            basic_request.data,
+            basic_request.options.force_optional,
+            basic_request.options.snake_cased,
         )
     }
 
