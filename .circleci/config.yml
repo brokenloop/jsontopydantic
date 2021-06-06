@@ -84,8 +84,10 @@ jobs:
       - run:
           name: Check Directory Again
           command: |
+            cd client
             pwd
             ls
+            ls build
       # - save_cache:
       #   paths:
       #     - node_modules
