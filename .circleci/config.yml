@@ -57,7 +57,7 @@ jobs:
           name: Deploy new Lambda
           command: aws lambda update-function-code --function-name pydantic-generator-lambda --s3-bucket pydantic-generator-server --s3-key function.zip
 
-  deploy-client-prod:
+  build-client:
     docker:
       - image: circleci/node:12.9.1-browsers
     working_directory: ~/repo
@@ -88,6 +88,10 @@ jobs:
             pwd
             ls
             ls build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - client/build
       # - save_cache:
       #   paths:
       #     - node_modules
@@ -95,13 +99,26 @@ jobs:
       #     - ~/.cache
       #   key: v1-dependencies-{{ checksum "package.json" }}
       # - run: npm run build
-      - aws-s3/sync:
-          from: client/build
-          to: "s3://pydantic-generator-client/"
-          arguments: |
-            --acl public-read \
-            --cache-control "max-age=86400"
-          overwrite: true
+      # - aws-s3/sync:
+      #     from: client/build
+      #     to: "s3://pydantic-generator-client/"
+      #     arguments: |
+      #       --acl public-read \
+      #       --cache-control "max-age=86400"
+      #     overwrite: true
+
+  deploy-client-prod:
+    executor: aws-cli/default
+    steps:
+      - attach_workspace:
+          at: ./
+      - aws-cli/setup:
+          aws-region: AWS_DEFAULT_REGION
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+      - run:
+          name: Upload to S3
+          command: aws s3 sync client/build "s3://pydantic-generator-client/"
 
 workflows:
   build-test-and-deploy:
@@ -121,8 +138,17 @@ workflows:
       #         only:
       #           - deploy
 
+      - build-client:
+          context: jsontopydantic-prod
+          filters:
+            branches:
+              only:
+                - deploy
+
       - deploy-client-prod:
           context: jsontopydantic-prod
+          requires:
+            - build-client
           filters:
             branches:
               only:
