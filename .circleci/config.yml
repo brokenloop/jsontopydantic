@@ -25,18 +25,18 @@ jobs:
       - run:
           name: Test
           command: pytest
-      # - run:
-      #     name: Create Zipfile archive of Dependencies
-      #     command: |
-      #       cd env/lib/python3.8/site-packages
-      #       zip -r9 ../../../../function.zip .
-      # - run:
-      #     name: Add App to Zipfile
-      #     command: zip -g ./function.zip .env -r app
-      # - persist_to_workspace:
-      #     root: .
-      #     paths:
-      #       - function.zip
+      - run:
+          name: Create Zipfile archive of Dependencies
+          command: |
+            cd env/lib/python3.8/site-packages
+            zip -r9 ../../../../function.zip .
+      - run:
+          name: Add App to Zipfile
+          command: zip -g ./function.zip .env -r server/app
+      - persist_to_workspace:
+          root: .
+          paths:
+            - function.zip
 
   # deploy-dev:
   #   executor: aws-cli/default
