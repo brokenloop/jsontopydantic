@@ -32,42 +32,44 @@ jobs:
             zip -r9 ../../../../function.zip .
       - run:
           name: Add App to Zipfile
-          command: zip -g ./function.zip .env -r server/app
+          command: |
+            cd server
+            zip -g ../function.zip .env -r app
       - persist_to_workspace:
           root: .
           paths:
             - function.zip
 
-  # deploy-dev:
-  #   executor: aws-cli/default
-  #   steps:
-  #     - attach_workspace:
-  #         at: ./
-  #     - aws-cli/setup:
-  #         aws-region: AWS_DEFAULT_REGION
-  #         aws-access-key-id: AWS_ACCESS_KEY_ID
-  #         aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-  #     - run:
-  #         name: Upload to S3
-  #         command: aws s3 cp function.zip s3://cicd-test-1/function.zip
-  #     - run:
-  #         name: Deploy new Lambda
-  #         command: aws lambda update-function-code --function-name cicd-test-1 --s3-bucket cicd-test-1 --s3-key function.zip
+  deploy-dev:
+    executor: aws-cli/default
+    steps:
+      - attach_workspace:
+          at: ./
+      - aws-cli/setup:
+          aws-region: AWS_DEFAULT_REGION
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+      - run:
+          name: Upload to S3
+          command: aws s3 cp function.zip s3://cicd-test-1/function.zip
+      - run:
+          name: Deploy new Lambda
+          command: aws lambda update-function-code --function-name cicd-test-1 --s3-bucket cicd-test-1 --s3-key function.zip
 
 workflows:
   build-test-and-deploy:
     jobs:
       - build-and-test:
-          # context: serverless-fastapi-dev
+          context: jsontopydantic-prod
           filters:
             branches:
               only:
                 - deploy
-      # - deploy-dev:
-      #     context: serverless-fastapi-dev
-      #     requires:
-      #       - build-and-test
-      #     filters:
-      #       branches:
-      #         only:
-      #           - cicd-test-1
+      - deploy-dev:
+          context: jsontopydantic-prod
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only:
+                - deploy
