@@ -120,7 +120,6 @@ jobs:
           name: Upload to S3
           command: |
             cd client/build
-            ls
             aws s3 sync . "s3://pydantic-generator-client/"
 
 workflows:
