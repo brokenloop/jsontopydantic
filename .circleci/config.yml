@@ -96,12 +96,12 @@ jobs:
       #   key: v1-dependencies-{{ checksum "package.json" }}
       # - run: npm run build
       - aws-s3/sync:
-        from: client/build
-        to: "s3://pydantic-generator-client/"
-        arguments: |
-          --acl public-read \
-          --cache-control "max-age=86400"
-        overwrite: true
+          from: client/build
+          to: "s3://pydantic-generator-client/"
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400"
+          overwrite: true
 
 workflows:
   build-test-and-deploy:
