@@ -3,7 +3,6 @@ version: 2.1
 orbs:
   python: circleci/python@0.3.2
   aws-cli: circleci/aws-cli@1.2.1
-  aws-s3: circleci/aws-s3@1.0.11
 
 jobs:
   build-and-test-server:
@@ -64,11 +63,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Check Directory
-          command: |
-            pwd
-            ls
-      - run:
           name: Install Dependencies
           command: |
             cd client
@@ -78,13 +72,6 @@ jobs:
           command: |
             cd client
             npm run build
-      - run:
-          name: Check Directory Again
-          command: |
-            cd client
-            pwd
-            ls
-            ls build
       - persist_to_workspace:
           root: .
           paths:
