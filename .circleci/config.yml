@@ -109,8 +109,8 @@ workflows:
       - deploy-client-prod:
           context: jsontopydantic-prod
           filters:
-          branches:
-            only:
-              - deploy
+            branches:
+              only:
+                - deploy
 # https://www.deadbearcode.com/serverless-fastapi-cicd/
 
