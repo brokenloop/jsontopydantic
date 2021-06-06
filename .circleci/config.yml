@@ -5,7 +5,7 @@ orbs:
   aws-cli: circleci/aws-cli@1.2.1
 
 jobs:
-  build-and-test:
+  build-and-test-server:
     executor:
       name: python/default
       tag: "3.8"
@@ -59,7 +59,7 @@ jobs:
 workflows:
   build-test-and-deploy:
     jobs:
-      - build-and-test:
+      - build-and-test-server:
           context: jsontopydantic-prod
           filters:
             branches:
@@ -68,8 +68,10 @@ workflows:
       - deploy-dev:
           context: jsontopydantic-prod
           requires:
-            - build-and-test
+            - build-and-test-server
           filters:
             branches:
               only:
                 - deploy
+# https://www.deadbearcode.com/serverless-fastapi-cicd/
+
