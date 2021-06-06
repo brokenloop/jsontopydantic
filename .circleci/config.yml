@@ -118,7 +118,10 @@ jobs:
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
       - run:
           name: Upload to S3
-          command: aws s3 sync client/build "s3://pydantic-generator-client/"
+          command: |
+            cd client/build
+            ls
+            aws s3 sync . "s3://pydantic-generator-client/"
 
 workflows:
   build-test-and-deploy:
