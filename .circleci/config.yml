@@ -76,6 +76,11 @@ jobs:
           command: |
             cd client
             npm install
+      - run:
+          name: Build
+          command: |
+            cd client
+            npm run build
 
       # - save_cache:
       #   paths:
