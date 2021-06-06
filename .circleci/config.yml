@@ -51,10 +51,10 @@ jobs:
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
       - run:
           name: Upload to S3
-          command: aws s3 cp function.zip s3://cicd-test-1/function.zip
+          command: aws s3 cp function.zip s3://pydantic-generator-server/function.zip
       - run:
           name: Deploy new Lambda
-          command: aws lambda update-function-code --function-name cicd-test-1 --s3-bucket cicd-test-1 --s3-key function.zip
+          command: aws lambda update-function-code --function-name pydantic-generator-lambda --s3-bucket pydantic-generator-server --s3-key function.zip
 
 workflows:
   build-test-and-deploy:
