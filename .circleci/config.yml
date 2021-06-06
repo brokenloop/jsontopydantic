@@ -71,6 +71,12 @@ jobs:
           command: |
             pwd
             ls
+      - run:
+          name: Install Dependencies
+          command: |
+            cd client
+            npm install
+
       # - save_cache:
       #   paths:
       #     - node_modules
