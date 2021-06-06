@@ -21,10 +21,3 @@ def translate(
     )
 
     return parser.parse()
-
-
-if __name__ == "__main__":
-    # TODO: write actual tests
-    data = {"TesterClass": 31}
-    result = translate(input_text=data, all_optional=False, snake_case_field=True)
-    print(result)
