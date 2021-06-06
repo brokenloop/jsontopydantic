@@ -81,7 +81,11 @@ jobs:
           command: |
             cd client
             npm run build
-
+      - run:
+          name: Check Directory Again
+          command: |
+            pwd
+            ls
       # - save_cache:
       #   paths:
       #     - node_modules
