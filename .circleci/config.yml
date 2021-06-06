@@ -63,9 +63,6 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-      # - restore_cache:
-      #     key:
-      #       - npm-cache-v1-{{ checksum "package-lock.json" }}
       - run:
           name: Check Directory
           command: |
@@ -92,20 +89,6 @@ jobs:
           root: .
           paths:
             - client/build
-      # - save_cache:
-      #   paths:
-      #     - node_modules
-      #     - ~/.npm
-      #     - ~/.cache
-      #   key: v1-dependencies-{{ checksum "package.json" }}
-      # - run: npm run build
-      # - aws-s3/sync:
-      #     from: client/build
-      #     to: "s3://pydantic-generator-client/"
-      #     arguments: |
-      #       --acl public-read \
-      #       --cache-control "max-age=86400"
-      #     overwrite: true
 
   deploy-client-prod:
     executor: aws-cli/default
@@ -125,23 +108,26 @@ jobs:
 workflows:
   build-test-and-deploy:
     jobs:
-      # - build-and-test-server:
-      #     context: jsontopydantic-prod
-      #     filters:
-      #       branches:
-      #         only:
-      #           - deploy
-      # - deploy-server-prod:
-      #     context: jsontopydantic-prod
-      #     requires:
-      #       - build-and-test-server
-      #     filters:
-      #       branches:
-      #         only:
-      #           - deploy
+      - build-and-test-server:
+          # context: jsontopydantic-prod
+          filters:
+            branches:
+              only:
+                - deploy
+
+      - deploy-server-prod:
+          context: jsontopydantic-prod
+          requires:
+            - build-and-test-server
+          filters:
+            branches:
+              only:
+                - deploy
 
       - build-client:
-          context: jsontopydantic-prod
+          # context: jsontopydantic-prod
+          requires:
+            - deploy-server-prod
           filters:
             branches:
               only:
