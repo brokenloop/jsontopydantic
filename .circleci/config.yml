@@ -18,7 +18,7 @@ jobs:
             echo "source ./env/bin/activate" >> $BASH_ENV
       - run:
           name: Install Dependencies
-          command: pip install -r requirements.txt
+          command: pip install -r server/requirements.txt
       - run:
           name: Create ENV file
           command: env > .env
