@@ -65,7 +65,7 @@ workflows:
             branches:
               only:
                 - deploy
-      - deploy-dev:
+      - deploy-server-prod:
           context: jsontopydantic-prod
           requires:
             - build-and-test-server
