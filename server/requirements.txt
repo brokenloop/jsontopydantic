@@ -9,7 +9,7 @@ click==8.0.1
 datamodel-code-generator==0.11.6
 dnspython==2.1.0
 email-validator==1.1.2
-fastapi==0.65.1
+fastapi==0.65.2
 genson==1.2.2
 h11==0.12.0
 idna
