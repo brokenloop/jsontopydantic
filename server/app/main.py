@@ -32,10 +32,13 @@ class BasicRequest(BaseModel):
 
 @app.post("/")
 async def convert(basic_request: BasicRequest):
+    print(basic_request)
     options = basic_request.options if basic_request.options is not None else Options()
     return {
         "model": translate(
-            basic_request.data, options.force_optional, options.snake_cased,
+            basic_request.data,
+            options.force_optional,
+            options.snake_cased,
         )
     }
 

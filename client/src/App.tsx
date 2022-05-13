@@ -64,6 +64,9 @@ function App() {
     const url = new URL(apiUrl);
     const opts = {
       method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
       body: JSON.stringify(requestBody),
     };
 
