@@ -1,0 +1,5 @@
+pytest
+fastapi
+mangum
+datamodel_code_generator
+genson
