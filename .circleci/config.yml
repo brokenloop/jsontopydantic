@@ -8,13 +8,13 @@ jobs:
   build-and-test-server:
     executor:
       name: python/default
-      tag: "3.8"
+      tag: "3.10"
     steps:
       - checkout
       - run:
           name: Setup Virtual env
           command: |
-            virtualenv -p python3.8 env
+            virtualenv -p python3.10 env
             echo "source ./env/bin/activate" >> $BASH_ENV
       - run:
           name: Install Dependencies
@@ -28,7 +28,7 @@ jobs:
       - run:
           name: Create Zipfile archive of Dependencies
           command: |
-            cd env/lib/python3.8/site-packages
+            cd env/lib/python3.10/site-packages
             zip -r9 ../../../../function.zip .
       - run:
           name: Add App to Zipfile
