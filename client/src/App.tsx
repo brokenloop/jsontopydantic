@@ -126,8 +126,8 @@ function App() {
             </label>
           </p>
         </div>
-        <div className="field">
-          <p className="option">
+        <div className="option">
+          <p className="control">
             <label className="checkbox">
               <input
                 type="checkbox"
@@ -147,7 +147,7 @@ function App() {
                 type="checkbox"
                 checked={options.includeExamples}
                 onChange={(e) =>
-                  setOptions({ ...options, snakeCased: e.target.checked })
+                  setOptions({ ...options, includeExamples: e.target.checked })
                 }
               />
               Include examples for strings and numbers on the Fields.

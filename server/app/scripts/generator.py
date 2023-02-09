@@ -54,14 +54,3 @@ def translate(
     )
 
     return parser.parse()
-
-
-if __name__ == "__main__":
-    example = {
-        "id": "123",
-        "name": "foo",
-        "type": 1,
-        "is_real": False,
-    }
-    result = translate(example, False, False, True)
-    print(result)
