@@ -23,6 +23,7 @@ app.add_middleware(
 class Options(BaseModel):
     force_optional: bool = Field(False, alias="forceOptional")
     snake_cased: bool = Field(False, alias="snakeCased")
+    include_examples: bool = Field(False, alias="includeExamples")
 
 
 class BasicRequest(BaseModel):
@@ -39,6 +40,7 @@ async def convert(basic_request: BasicRequest):
             basic_request.data,
             options.force_optional,
             options.snake_cased,
+            options.include_examples,
         )
     }
 

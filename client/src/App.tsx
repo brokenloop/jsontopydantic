@@ -9,13 +9,14 @@ import "ace-builds/src-noconflict/theme-monokai";
 
 const apiUrl = "https://ufgjji253b.execute-api.us-east-1.amazonaws.com/prod";
 const defaultJsonObject = '{\n\t"foo": 5, \n\t"barBaz": "hello"\n}';
-const defaultOptions = { forceOptional: false, snakeCased: false };
+const defaultOptions = { forceOptional: false, snakeCased: false, includeExamples: false };
 const loadingMessage = "# loading...";
 const invalidJsonMessage = "# invalid json";
 
 type RequestOptions = {
   forceOptional: boolean;
   snakeCased: boolean;
+  includeExamples: boolean;
 };
 
 type RequestBody = {
@@ -30,7 +31,7 @@ function App() {
 
   useEffect(() => {
     if (validJson(jsonObject)) {
-      fetchConversion(jsonObject, options.forceOptional, options.snakeCased);
+      fetchConversion(jsonObject, options.forceOptional, options.snakeCased, options.includeExamples);
     } else {
       setPydanticModel(invalidJsonMessage);
     }
@@ -52,11 +53,12 @@ function App() {
   function fetchConversion(
     newValue: string,
     forceOptional: boolean,
-    snakeCased: boolean
+    snakeCased: boolean,
+    includeExamples: boolean
   ) {
     console.log("fetching");
     setPydanticModel(loadingMessage);
-    const requestOptions: RequestOptions = { forceOptional, snakeCased };
+    const requestOptions: RequestOptions = { forceOptional, snakeCased, includeExamples };
     const requestBody: RequestBody = {
       data: newValue,
       options: requestOptions,
@@ -124,8 +126,8 @@ function App() {
             </label>
           </p>
         </div>
-        <div className="field">
-          <p className="option">
+        <div className="option">
+          <p className="control">
             <label className="checkbox">
               <input
                 type="checkbox"
@@ -135,6 +137,20 @@ function App() {
                 }
               />
               Alias camelCase fields as snake_case
+            </label>
+          </p>
+        </div>
+        <div className="field">
+          <p className="option">
+            <label className="checkbox">
+              <input
+                type="checkbox"
+                checked={options.includeExamples}
+                onChange={(e) =>
+                  setOptions({ ...options, includeExamples: e.target.checked })
+                }
+              />
+              Include examples for strings and numbers on the Fields.
             </label>
           </p>
         </div>
